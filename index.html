@@ -63,52 +63,40 @@
     <!-- <app-button id="classic-button-login" onclick="login()" text="Login"></app-button>
     <app-button id="classic-button-register" onclick="register()" text="Register"></app-button> -->
 
-    <app-button text="Add" onclick="add()"></app-button>
-    <app-button text="Remove" onclick="remove()"></app-button>
+    <button is="app-button" class="btn add-btn" text="Add" onclick="add()">Add</button>
+    <button is="app-button" class="btn remove-btn" text="Remove" onclick="remove()">Remove</button>
 
   </div>
 
   <script>
-    // BUTTONS: START
-    // const loginButton = document.querySelector('#classic-button-login');
-    // const login = () => {
-    //   loginButton.setAttribute('inprogress', 'true');
-    //   setTimeout(() => {
-    //     loginButton.removeAttribute('inprogress', 'true');
-    //   }, 2000);
-    // }
-
-    // const registerButton = document.querySelector('#classic-button-register');
-    // const register = () => {
-    //   registerButton.setAttribute('inprogress', 'true');
-    //   setTimeout(() => {
-    //     registerButton.removeAttribute('inprogress');
-    //   }, 2000);
-    // }
-
     const add = () => {
-      const counter = document.createElement('app-counter');
-      counter.setAttribute('until', "5");
-
-      console.log();
-      document.body.append(counter);
+      const addButton = document.querySelector('button');
+      addButton.inprogress = true;
+      setTimeout(() => {
+        const counter = document.createElement('app-counter');
+        counter.setAttribute('until', '5');
+        document.body.append(counter);
+        addButton.inprogress = false;
+      }, 2000);
     }
 
     const remove = () => {
       document.querySelector('app-counter').remove();
     }
 
-    class Button extends HTMLElement {
+    // BUTTON: START
+    class Button extends HTMLButtonElement {
       constructor() {
         super(); // htmlelement's constructor?
+        
       }
 
       connectedCallback() {
-        const text = this.getAttribute('text');
-        this.innerHTML = `<button class="btn">${text}</button>`;
+        this.text = this.textContent;
       }
 
       set inprogress(progress) {
+        console.log('set: ', progress);
         if(progress) {
           this.setAttribute('inprogress', 'true');
         } else {
@@ -125,22 +113,23 @@
       }
 
       attributeChangedCallback(attribute, oldValue, newValue) {
-        const button = this.querySelector('button');
         if (newValue) {
-          button.textContent = "Loading...";
-          button.setAttribute('disabled', 'true');
-          button.classList.add('fading');
+          this.textContent = "Loading...";
+          this.setAttribute('disabled', 'true');
+          this.classList.add('fading');
         } else {
-          button.textContent = this.getAttribute('text');
-          button.removeAttribute('disabled');
-          button.classList.remove('fading');
+          this.textContent = this.getAttribute('text');
+          this.removeAttribute('disabled');
+          this.classList.remove('fading');
         }
       }
     }
 
-    customElements.define('app-button', Button);
-    // BUTTONS: END
+    customElements.define('app-button', Button, {extends: "button"});
+    // BUTTON: END
 
+
+    // COUNTER: START
     class Counter extends HTMLElement {
       constructor() {
         super();
@@ -181,6 +170,7 @@
     }
 
     customElements.define('app-counter', Counter);
+    // COUNTER: END
     
   </script>
 </body>
