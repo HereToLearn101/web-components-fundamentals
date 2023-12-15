@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Components</title>
+  <style>
+    .btn {
+      background-color: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 1rem 2rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 20px;
+      box-shadow: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
+    }
+
+    .btn:hover {
+      background-color: #1d80f0;
+    }
+
+    .btn:disabled {
+      background-color: #6aa8f0;
+    }
+
+    .fading {
+      animation: fading 0.5s infinite;
+    }
+
+    @keyframes fading {
+      0% {
+        color: #6aa8f0;
+      }
+
+      50% {
+        color: white;
+      }
+
+      100% {
+        color: #6aa8f0;
+      }
+    }
+
+    app-button {
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    app-counter {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="buttons-container">
+    <!-- <app-counter></app-counter> -->
+    <!-- <app-button id="classic-button-login" onclick="login()" text="Login"></app-button>
+    <app-button id="classic-button-register" onclick="register()" text="Register"></app-button> -->
+
+    <app-button text="Add" onclick="add()"></app-button>
+    <app-button text="Remove" onclick="remove()"></app-button>
+    <app-button text="Move" onclick="move()"></app-button>
+
+    <iframe></iframe>
+  </div>
+
+  <script>
+    // BUTTONS: START
+    // const loginButton = document.querySelector('#classic-button-login');
+    // const login = () => {
+    //   loginButton.setAttribute('inprogress', 'true');
+    //   setTimeout(() => {
+    //     loginButton.removeAttribute('inprogress', 'true');
+    //   }, 2000);
+    // }
+
+    // const registerButton = document.querySelector('#classic-button-register');
+    // const register = () => {
+    //   registerButton.setAttribute('inprogress', 'true');
+    //   setTimeout(() => {
+    //     registerButton.removeAttribute('inprogress');
+    //   }, 2000);
+    // }
+
+    const add = () => {
+      const counter = document.createElement('app-counter');
+      counter.setAttribute('until', "5");
+      document.body.append(counter);
+    }
+
+    const remove = () => {
+      document.querySelector('app-counter').remove();
+    }
+
+    const move = () => {
+      const iframe = document.querySelector('iframe');
+      const doc = document.implementation.createHTMLDocument('new document');
+
+      const destDocument = iframe.contentDocument;
+      destDocument.replaceChild(doc.documentElement, destDocument.documentElement);
+
+      const counter = document.querySelector('app-counter');
+      destDocument.body.appendChild(destDocument.adoptNode(counter));
+    }
+
+    class Button extends HTMLElement {
+      constructor() {
+        super(); // htmlelement's constructor?
+      }
+
+      connectedCallback() {
+        const text = this.getAttribute('text');
+        this.innerHTML = `<button class="btn">${text}</button>`;
+      }
+
+      static get observedAttributes() {
+        return ["inprogress"];
+      }
+
+      attributeChangedCallback(attribute, oldValue, newValue) {
+        const button = this.querySelector('button');
+        if (newValue) {
+          button.textContent = "Loading...";
+          button.setAttribute('disabled', 'true');
+          button.classList.add('fading');
+        } else {
+          button.textContent = this.getAttribute('text');
+          button.removeAttribute('disabled');
+          button.classList.remove('fading');
+        }
+      }
+    }
+
+    customElements.define('app-button', Button);
+    // BUTTONS: END
+
+    class Counter extends HTMLElement {
+      constructor() {
+        super();
+        console.log('constructor');
+        this.count = 0;
+      }
+
+      // method when element is added to the DOM
+      connectedCallback() {
+        console.log('connected');
+        this.innerHTML = this.count;
+        const until = this.getAttribute('until');
+        this.interval = setInterval(() => {
+          console.log('interval is running', Date.now());
+          if (this.count < until) {
+            this.count++;
+            this.innerHTML = this.count;
+          } else {
+            clearInterval(this.interval);
+          }
+        }, 1000);
+      }
+
+      // method when element is removed from the DOM
+      disconnectedCallback() {
+        console.log('disconnected');
+        clearInterval(this.interval);
+      }
+
+      attributeChangedCallback(attribute, oldVal, newVal) {
+        console.log('attribute changed');
+      }
+
+      // this method callback is triggered when the element is moved into a new document
+      adoptedCallback() {
+
+      }
+    }
+
+    customElements.define('app-counter', Counter);
+    
+  </script>
+</body>
+</html>
