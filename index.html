@@ -42,6 +42,11 @@
       }
     }
 
+    app-button[inprogress] {
+      transform: scale(1.1);
+      transform-origin: top left;
+    }
+
     app-button {
       display: block;
       margin-bottom: 1rem;
@@ -60,9 +65,7 @@
 
     <app-button text="Add" onclick="add()"></app-button>
     <app-button text="Remove" onclick="remove()"></app-button>
-    <app-button text="Move" onclick="move()"></app-button>
 
-    <iframe></iframe>
   </div>
 
   <script>
@@ -86,22 +89,13 @@
     const add = () => {
       const counter = document.createElement('app-counter');
       counter.setAttribute('until', "5");
+
+      console.log();
       document.body.append(counter);
     }
 
     const remove = () => {
       document.querySelector('app-counter').remove();
-    }
-
-    const move = () => {
-      const iframe = document.querySelector('iframe');
-      const doc = document.implementation.createHTMLDocument('new document');
-
-      const destDocument = iframe.contentDocument;
-      destDocument.replaceChild(doc.documentElement, destDocument.documentElement);
-
-      const counter = document.querySelector('app-counter');
-      destDocument.body.appendChild(destDocument.adoptNode(counter));
     }
 
     class Button extends HTMLElement {
@@ -112,6 +106,18 @@
       connectedCallback() {
         const text = this.getAttribute('text');
         this.innerHTML = `<button class="btn">${text}</button>`;
+      }
+
+      set inprogress(progress) {
+        if(progress) {
+          this.setAttribute('inprogress', 'true');
+        } else {
+          this.removeAttribute('inprogress');
+        }
+      }
+
+      get inprogress() {
+        return this.getAttribute('inprogress');
       }
 
       static get observedAttributes() {
