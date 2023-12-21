@@ -1,7 +1,6 @@
 class Counter extends HTMLElement {
     constructor() {
       super();
-      console.log('constructor');
       this.count = 0;
     }
 
