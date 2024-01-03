@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <title>Web Components</title>
   <style>
     
@@ -24,10 +25,11 @@
 </head>
 <body>
   <div class="buttons-container">
+
+    <button type="button" class="btn btn-danger">Danger</button>
     
     <app-button text="Add" onclick="add()"></app-button>
     <app-button text="Remove" onclick="remove()"></app-button>
-    <app-stopwatch></app-stopwatch>
 
   </div>
 
@@ -51,8 +53,7 @@
     // BUTTONS: END
     
   </script>
-  <!-- <script src="src/button.js"></script>
-  <script src="src/counter.js"></script> -->
-  <script src="src/stopwatch.js"></script>
+  <script src="src/button.js"></script>
+  <script src="src/counter.js"></script>
 </body>
 </html>

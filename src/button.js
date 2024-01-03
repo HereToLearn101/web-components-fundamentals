@@ -45,19 +45,14 @@ buttonTemplate.innerHTML = /* html */ `
 class Button extends HTMLElement {
     constructor() {
       super(); // htmlelement's constructor?
+      this.attachShadow({mode: "open"});
     }
 
     connectedCallback() {
       const text = this.getAttribute('text');
-      // this.innerHTML = `<button class="btn">${text}</button>`;
-      // const buttonTemplate = document.querySelector('#button-template'); 
-      // console.log(buttonTemplate.content.cloneNode(false));
-      
-      // It's important to clone, so it can be applied to multiple custom elements.
-      // if you didn't use cloneNode, then the content inside the template would have 
-      // been completely consumed for one time use only.
-      this.appendChild(buttonTemplate.content.cloneNode(true));
-      this.button = this.querySelector('button');
+      this.shadowRoot.appendChild(buttonTemplate.content.cloneNode(true))
+      // this.appendChild(buttonTemplate.content.cloneNode(true));
+      this.button = this.shadowRoot.querySelector('button');
       this.button.textContent = text;
     }
 
