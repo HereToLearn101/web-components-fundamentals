@@ -5,12 +5,11 @@ buttonTemplate.innerHTML = /* html */ `
     background-color: #0070f3;
     color: white;
     border: none;
-    border-radius: 25px;
+    border-radius: 7px;
     padding: 1rem 2rem;
     font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
     box-shadow: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
-    
   }
 
   .btn:hover {
@@ -39,7 +38,7 @@ buttonTemplate.innerHTML = /* html */ `
     }
   }
 </style>
-<button class="btn">Button Text</button>
+<button class="btn"><slot>Button Text</slot></button>
 `;
 
 class Button extends HTMLElement {
@@ -49,11 +48,10 @@ class Button extends HTMLElement {
     }
 
     connectedCallback() {
-      const text = this.getAttribute('text');
+      
       this.shadowRoot.appendChild(buttonTemplate.content.cloneNode(true))
-      // this.appendChild(buttonTemplate.content.cloneNode(true));
       this.button = this.shadowRoot.querySelector('button');
-      this.button.textContent = text;
+      this.initialValue = this.innerHTML;
     }
 
     set inprogress(progress) {
@@ -75,11 +73,11 @@ class Button extends HTMLElement {
     attributeChangedCallback(attribute, oldValue, newValue) {
       // const button = this.querySelector('button');
       if (newValue) {
-        this.button.textContent = "Loading...";
+        this.innerHTML = "Loading...";
         this.button.setAttribute('disabled', 'true');
         this.button.classList.add('fading');
       } else {
-        this.button.textContent = this.getAttribute('text');
+        this.innerHTML = this.initialValue;
         this.button.removeAttribute('disabled');
         this.button.classList.remove('fading');
       }
