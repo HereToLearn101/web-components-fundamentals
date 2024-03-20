@@ -34,6 +34,14 @@
     <app-button onclick="add()">Add</app-button>
     <app-button onclick="remove()">Remove</app-button>
 
+    <app-card>
+      <h1 slot="card-header">Header</h1>
+      <h2 slot="card-header">Sub Header</h2>
+      <p slot="card-body">Card body content</p>
+      <button>no action</button>
+      <button>another action</button>
+    </app-card>
+
   </div>
 
   <script>
@@ -56,7 +64,8 @@
     // BUTTONS: END
     
   </script>
-  <script src="src/button.js"></script>
-  <script src="src/counter.js"></script>
+  <script src="src/button.js" type="module"></script>
+  <script src="src/counter.js" type="module"></script>
+  <script src="src/card.js" type="module"></script>
 </body>
 </html>
