@@ -18,79 +18,24 @@
 				color: lightgray;
 			}
 
-			button {
-				margin-bottom: 1rem;
+			body {
+				padding: 1rem;
 			}
 
-			.buttons-container {
-				padding: 2rem;
-			}
-
-			app-counter {
-				display: block;
-			}
-
-			/* CSS way of hiding app-card component when not defined */
-			app-card:not(:defined) {
+			:not(:defined) {
 				display: none;
 			}
-
-			app-button:not(:defined) {
-				display: none;
-			}
-
-			/* h1,
-			h2 {
-				color: red;
-			}
-
-			app-card::part(body-of-card) {
-				padding: 4rem;
-				background-color: lightgray;
-			} */
 		</style>
 	</head>
 
 	<body class="dark">
-		<div class="buttons-container">
-			<!-- <app-button onclick="add()">Add</app-button>
-			<app-button onclick="remove()">Remove</app-button> -->
-
-			<app-card>
-				<h1 slot="card-header">Header</h1>
-				<!-- <h2 slot="card-header">Sub Header</h2> -->
-				<p slot="card-body">Card body content</p>
-				<app-button slot="card-body" onclick="switchTheme()">Switch Theme</app-button>
-			</app-card>
+		<div class="form-container">
+			
+			<app-input label="Username"></app-input>
 
 		</div>
 
 		<script>
-			// BUTTONS: START
-			const add = () => {
-			const addButton = document.querySelector('app-button');
-			addButton.inprogress = true;
-
-			setTimeout(() => {
-				const counter = document.createElement('app-counter');
-				counter.setAttribute('until', "5");
-				document.body.append(counter);
-				addButton.inprogress = false;
-			}, 2000);
-			}
-
-			const remove = () => {
-				document.querySelector('app-counter').remove();
-			}
-
-			const switchTheme = () => {
-				if(document.body.classList.contains('dark')) {
-					document.body.classList.remove('dark');
-				} else {
-					document.body.classList.add('dark');
-				}
-			}
-			// BUTTONS: END
 
 			/* JS way of hiding app-card component when not defined */
 			// const card = document.querySelector('app-card');
@@ -104,5 +49,6 @@
 		<script src="src/button.js" type="module"></script>
 		<script src="src/counter.js" type="module"></script>
 		<script src="src/card.js" type="module"></script>
+		<script src="src/input.js" type="module"></script>
 	</body>
 </html>
