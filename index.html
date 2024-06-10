@@ -25,6 +25,11 @@
 			:not(:defined) {
 				display: none;
 			}
+
+			input {
+				display: block;
+				margin-bottom: 1rem;
+			}
 		</style>
 	</head>
 
@@ -32,10 +37,15 @@
 		<div class="form-container">
 			
 			<app-input label="Username"></app-input>
+			<input>
 
 		</div>
 
 		<script>
+
+			document.addEventListener('input', () => {
+				console.log(event.target.value);
+			});
 
 			/* JS way of hiding app-card component when not defined */
 			// const card = document.querySelector('app-card');

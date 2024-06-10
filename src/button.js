@@ -57,7 +57,7 @@ class Button extends HTMLElement {
 			this.button.classList.remove('fading');
 		}
     }
-  }
+}
 
 setTimeout(() => {
     customElements.define('app-button', Button);
